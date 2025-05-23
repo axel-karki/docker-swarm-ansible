@@ -15,5 +15,5 @@
 - name: Join swarm
   command: docker swarm join --token {{ join_token }} {{ manager_ip }}:2377
   register: join_result
-  failed_when: "'This node is already part of a swarm' not in join_result.stderr"
+  failed_when: "'Error' in join_result.stderr"
   changed_when: "'This node joined a swarm' in join_result.stdout"
