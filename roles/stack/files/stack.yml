@@ -3,7 +3,7 @@ services:
   nginx:
     image: nginx:alpine
     deploy:
-      replicas: 1
+      replicas: 4
       placement:
         constraints:
           - node.role == worker
