@@ -1,7 +1,3 @@
-- name: Get manager IP
-  set_fact:
-    manager_ip: "{{ manager_ip }}"
-
 # Ansible connects from the worker's play to the manager VM.
 # It reads the token file (slurp reads and base64 encodes it).
 # It stores it as a variable.
