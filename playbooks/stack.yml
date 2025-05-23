@@ -1,0 +1,5 @@
+- name: Docker Stack
+  hosts: manager
+  become: true
+  roles:
+    - stack

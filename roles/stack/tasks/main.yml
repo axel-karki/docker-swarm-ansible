@@ -1,0 +1,7 @@
+- name: Copy Docker Compose file
+  copy:
+    src: stack.yml
+    dest: /tmp/stack.yml
+
+- name: Deploy the stack
+  command: docker stack deploy -c /tmp/stack.yml mystack
