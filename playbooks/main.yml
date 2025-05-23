@@ -1,0 +1,17 @@
+- name: Docker Swarm Cluster Setup
+  hosts: all
+  become: true
+  roles:
+    - common
+
+- name: Initialize Manager Node
+  hosts: manager
+  become: true
+  roles:
+    - manager
+
+- name: Join Worker Nodes
+  hosts: workers
+  become: true
+  roles:
+    - worker

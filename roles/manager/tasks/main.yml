@@ -1,0 +1,16 @@
+- name: Initialize Docker Swarm
+  command: docker swarm init --advertise-addr {{ manager_ip }}
+  register: swarm_init
+
+- name: Get worker join token
+  shell: docker swarm join-token worker -q
+  register: worker_token
+
+- name: Set fact with join token
+  set_fact:
+    worker_join_token: "{{ worker_token.stdout }}"
+
+- name: Save token to file for reuse
+  copy:
+    content: "{{ worker_token.stdout }}"
+    dest: "/tmp/worker_join_token.txt"

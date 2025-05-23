@@ -1,0 +1,23 @@
+- name: Get manager IP
+  set_fact:
+    manager_ip: "{{ manager_ip }}"
+
+# Ansible connects from the worker's play to the manager VM.
+# It reads the token file (slurp reads and base64 encodes it).
+# It stores it as a variable.
+
+- name: Get join token
+  slurp: 
+    src: /tmp/worker_join_token.txt
+  delegate_to: manager-node # Use delegate_to to run a task on the manager node from the context of the worker node
+  register: join_token_raw
+
+- name: Convert token to string
+  set_fact:
+    join_token: "{{ join_token_raw.content | b64decode }}"
+
+- name: Join swarm
+  command: docker swarm join --token {{ join_token }} {{ manager_ip }}:2377
+  register: join_result
+  failed_when: "'This node is already part of a swarm' not in join_result.stderr"
+  changed_when: "'This node joined a swarm' in join_result.stdout"
